@@ -40,11 +40,12 @@ object Lists {
    * @throws java.util.NoSuchElementException if `xs` is an empty list
    */
   def max(xs: List[Int]): Int = {
-    def max_aux(ls: List[Int], cur: Int): Int =
+    def submax(ls: List[Int], cur: Int): Int = {
       if (ls.isEmpty) cur
-      else if (cur > ls.head) max_aux(ls.tail, cur)
-      else max_aux(ls.tail, ls.head)
+      else if (cur > ls.head) submax(ls.tail, cur)
+      else submax(ls.tail, ls.head)
+    }
     if (xs.isEmpty) throw new java.util.NoSuchElementException
-    else max_aux(xs.tail, xs.head)
+    else submax(xs.tail, xs.head)
   }
 }
