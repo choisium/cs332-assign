@@ -39,9 +39,39 @@ class HuffmanSuite extends FunSuite {
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
   }
 
+  test("combine of some leaf list with order changes") {
+    val leaflist = List(Leaf('e', 2), Leaf('t', 3), Leaf('x', 4))
+    assert(combine(leaflist) === List(Leaf('x',4), Fork(Leaf('e',2),Leaf('t',3),List('e', 't'),5)))
+  }
+
+  test("create codetree of char list") {
+    var charlist = string2Chars("xtetxxtex")
+    assert(createCodeTree(charlist) === Fork(Leaf('x',4), Fork(Leaf('e',2),Leaf('t',3),List('e', 't'),5),List('x','e','t'),9))
+  }
+
+  test("decode secret must be same as \"huffman est cool\"") {
+    val answer = string2Chars("huffmanestcool")
+    new TestTrees {
+      assert(decodedSecret == answer)
+    }
+  }
+
+  test("encode decodedSecret must be same as secret") {
+    new TestTrees {
+      assert(encode(frenchCode)(decodedSecret) == secret)
+    }
+  }
+
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
+
+  test("encode and quickEncode should give same encoding") {
+    val answer = string2Chars("huffmanestcool")
+    new TestTrees {
+      assert(encode(frenchCode)(answer) === quickEncode(frenchCode)(answer))
     }
   }
 }
