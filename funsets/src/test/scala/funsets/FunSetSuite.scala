@@ -86,7 +86,7 @@ class FunSetSuite extends FunSuite {
    * Once you finish your implementation of "singletonSet", exchange the
    * function "ignore" by "test".
    */
-  ignore("singletonSet(1) contains 1") {
+  test("singletonSet(1) contains 1") {
     
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
@@ -101,12 +101,71 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     new TestSets {
       val s = union(s1, s2)
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  test("intersect contains all elements") {
+    new TestSets {
+      val t1 = union(s1, s2)
+      val t2 = union(s2, s3)
+      val t = intersect(t1, t2)
+      assert(!contains(t, 1), "Intersect 1")
+      assert(contains(t, 2), "Intersect 2")
+      assert(!contains(t, 3), "Intersect 3")
+    }
+  }
+
+  test("diff contains all elements") {
+    new TestSets {
+      val t1 = union(s1, s2)
+      val t2 = union(s2, s3)
+      val t = diff(t1, t2)
+      assert(contains(t, 1), "Diff 1")
+      assert(!contains(t, 2), "Diff 2")
+      assert(!contains(t, 3), "Diff 3")
+    }
+  }
+
+  test("filter contains all elements") {
+    new TestSets {
+      val s = union(union(s1, s2), s3)
+      val t = filter(s, x => x <= 2)
+      assert(contains(t, 1), "Filter 1")
+      assert(contains(t, 2), "Filter 2")
+      assert(!contains(t, 3), "Filter 3")
+    }
+  }
+
+  test("forall contains all elements") {
+    new TestSets {
+      val s = union(s1, s2)
+      assert(!forall(s, x => x < 2), "forall 1")
+      assert(forall(s, x => x < 3), "forall 2")
+    }
+  }
+
+  test("exists contains all elements") {
+    new TestSets {
+      val s = union(s1, s2)
+      assert(!exists(s, x => x > 2), "exists 1")
+      assert(exists(s, x => x > 1), "exists 2")
+    }
+  }
+
+  test("map contains all elements") {
+    new TestSets {
+      val s = union(s1, s2)
+      val t = map(s, x => x * 2)
+      assert(!contains(t, 1), "map 1")
+      assert(contains(t, 2), "map 2")
+      assert(!contains(t, 3), "map 3")
+      assert(contains(t, 4), "map 4")
     }
   }
 }
