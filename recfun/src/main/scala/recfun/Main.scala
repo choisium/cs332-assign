@@ -23,13 +23,13 @@ object Main {
    * Exercise 2
    */
   def balance(chars: List[Char]): Boolean = {
-    def balance_aux(chars: List[Char], count_left: Int): Boolean =
+    def countLeftParentheses(chars: List[Char], count_left: Int): Boolean =
       if (chars.isEmpty) count_left == 0
       else if (count_left < 0) false
-      else if (chars.head == '(') balance_aux(chars.tail, count_left + 1)
-      else if (chars.head == ')') balance_aux(chars.tail, count_left - 1)
-      else balance_aux(chars.tail, count_left)
-    balance_aux(chars, 0)
+      else if (chars.head == '(') countLeftParentheses(chars.tail, count_left + 1)
+      else if (chars.head == ')') countLeftParentheses(chars.tail, count_left - 1)
+      else countLeftParentheses(chars.tail, count_left)
+    countLeftParentheses(chars, 0)
   }
 
 
